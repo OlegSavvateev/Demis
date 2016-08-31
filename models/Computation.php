@@ -82,7 +82,7 @@ class Computation extends ActiveRecord
         $codes = [];
         $textLength = strlen($this->text);
         for ($i = 0; $i < $textLength; $i++) {
-            if ($this->text{$i} == '{') {
+            if (($this->text{$i} == '{') && ($this->text{$i+1} != '{')) {
                 $i++;
                 $str = '';
                 if ($this->text{$i} == '-') {
@@ -92,8 +92,8 @@ class Computation extends ActiveRecord
                 if ($this->text{$i} == '+') {
                     $i++;
                 }
-                while (($this->text{$i} != '}') && ($i<$textLength)) {
-                    if (is_numeric($this->text{$i})) {
+                while ($this->text{$i} != '}') {
+                    if (($i<$textLength) && is_numeric($this->text{$i})) {
                         $str .= $this->text{$i};
                     } else {
                         $str = '';
